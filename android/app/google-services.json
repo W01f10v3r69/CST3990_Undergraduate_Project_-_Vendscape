@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "101192251583",
+    "project_id": "vendscape-9e909",
+    "storage_bucket": "vendscape-9e909.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101192251583:android:db8dd5bfedad295b0eee0a",
+        "android_client_info": {
+          "package_name": "com.example.vendscape"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101192251583-8050s940acnmu8p4a0hdm9r5alcrm5ad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vendscape",
+            "certificate_hash": "4cee8505f7c7d17e355d9aec2810613e139fefb4"
+          }
+        },
+        {
+          "client_id": "101192251583-8377laj83c666qgi03cl7l3qrj70dcrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMLi0dlaCPCa0YTgz4xvUH9-KoW5rBk_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101192251583-8377laj83c666qgi03cl7l3qrj70dcrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
