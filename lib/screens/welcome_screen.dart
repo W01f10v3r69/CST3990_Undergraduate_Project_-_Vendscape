@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendscape/providers/auth_provider.dart';
+import 'package:vendscape/providers/location_provider.dart';
+import 'package:vendscape/screens/map_screen.dart';
 import 'package:vendscape/screens/onboarding_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -115,6 +117,8 @@ class WelcomeScreen extends StatelessWidget {
       );
     }
 
+    final locationData = Provider.of<LocationProvider>(context, listen: false);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -147,7 +151,14 @@ class WelcomeScreen extends StatelessWidget {
                     'Set Delivery Location',
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await locationData.getCurrentPosition();
+                    if (locationData.permissionAllowed == true) {
+                      Navigator.pushReplacementNamed(context, MapScreen.id);
+                    } else {
+                      print('Permission Not Allowed');
+                    }
+                  },
                 ),
                 FlatButton(
                   child: RichText(

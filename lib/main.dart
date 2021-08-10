@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendscape/providers/auth_provider.dart';
+import 'package:vendscape/providers/location_provider.dart';
 import 'package:vendscape/screens/home_screen.dart';
+import 'package:vendscape/screens/map_screen.dart';
 import 'package:vendscape/screens/splash_screen.dart';
 import 'package:vendscape/screens/welcome_screen.dart';
 // import 'package:vendscape/screens/onboarding_screen.dart';
@@ -17,7 +19,10 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LocationProvider(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
         SplashScreen.id: (context) => SplashScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
+        MapScreen.id: (context) => MapScreen(),
       },
     );
   }
