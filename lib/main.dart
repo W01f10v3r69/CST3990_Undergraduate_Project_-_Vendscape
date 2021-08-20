@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendscape/providers/auth_provider.dart';
 import 'package:vendscape/providers/location_provider.dart';
-import 'package:vendscape/screens/home_screen.dart';
-import 'package:vendscape/screens/map_screen.dart';
-import 'package:vendscape/screens/splash_screen.dart';
-import 'package:vendscape/screens/welcome_screen.dart';
+
+import 'screens/home_screen.dart';
+import 'screens/map_screen.dart';
+import 'screens/splash_screen.dart';
+import 'screens/welcome_screen.dart';
+import 'screens/login_screen.dart';
 // import 'package:vendscape/screens/onboarding_screen.dart';
 // import 'screens/register_screen.dart';
 
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         WelcomeScreen.id: (context) => WelcomeScreen(),
         MapScreen.id: (context) => MapScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
       },
     );
   }

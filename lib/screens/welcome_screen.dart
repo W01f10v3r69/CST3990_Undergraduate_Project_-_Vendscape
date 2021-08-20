@@ -7,9 +7,14 @@ import 'package:vendscape/providers/location_provider.dart';
 import 'package:vendscape/screens/map_screen.dart';
 import 'package:vendscape/screens/onboarding_screen.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome-screen';
 
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -86,24 +91,28 @@ class WelcomeScreen extends StatelessWidget {
                           child: AbsorbPointer(
                             absorbing: _validPhoneNumber ? false : true,
                             child: FlatButton(
+                                onPressed: () {
+                                  myState((){
+                                    auth.loading=true;
+                                  });
+                                  String number = '+234${_phoneNumberController.text}';
+                                  auth.verifyPhone(context: context, number: number,
+                                      latitude: null, longitude: null, address: null).then((value) {
+                                    _phoneNumberController.clear();
+                                  });
+                                },
                                 color: _validPhoneNumber
                                     ? Theme.of(context).primaryColor
                                     : Colors.grey,
-                                child: Text(
-                                  _validPhoneNumber
-                                      ? 'CONTINUE'
+                                child: auth.loading ? CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                ) : Text(
+                                  _validPhoneNumber ? 'CONTINUE'
                                       : 'ENTER PHONE NUMBER',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                onPressed: () {
-                                  String number =
-                                      '+234${_phoneNumberController.text}';
-                                  auth
-                                      .verifyPhone(context, number)
-                                      .then((value) {
-                                    _phoneNumberController.clear();
-                                  });
-                                }),
+
+                            ),
                           ),
                         ),
                       ],
@@ -147,16 +156,27 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 FlatButton(
                   color: Colors.lightBlue,
-                  child: Text(
-                    'Set Delivery Location',
+                  child: locationData.loading ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ) : Text('Set Delivery Location',
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () async {
+                    setState(() {
+                      locationData.loading = true;
+                    });
+
                     await locationData.getCurrentPosition();
                     if (locationData.permissionAllowed == true) {
                       Navigator.pushReplacementNamed(context, MapScreen.id);
+                      setState(() {
+                        locationData.loading = false;
+                      });
                     } else {
                       print('Permission Not Allowed');
+                      setState(() {
+                        locationData.loading = false;
+                      });
                     }
                   },
                 ),
