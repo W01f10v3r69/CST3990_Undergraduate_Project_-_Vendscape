@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendscape/providers/auth_provider.dart';
@@ -96,8 +97,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     auth.loading=true;
                                   });
                                   String number = '+234${_phoneNumberController.text}';
-                                  auth.verifyPhone(context: context, number: number,
-                                      latitude: null, longitude: null, address: null).then((value) {
+                                  auth.verifyPhone(context: context, number: number).then((value) {
                                     _phoneNumberController.clear();
                                   });
                                 },
@@ -119,11 +119,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     )
                   ],
                 ),
-              ),
+               ),
             );
           },
         ),
-      );
+      ).whenComplete((){
+        // this.loading = false;
+        // notifyListeners();
+        auth.loading = false;
+        _phoneNumberController.clear();
+      });
     }
 
     final locationData = Provider.of<LocationProvider>(context, listen: false);
@@ -163,9 +168,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   onPressed: () async {
                     setState(() {
-                      locationData.loading = true;
                     });
-
                     await locationData.getCurrentPosition();
                     if (locationData.permissionAllowed == true) {
                       Navigator.pushReplacementNamed(context, MapScreen.id);
@@ -191,8 +194,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.lightBlue))
-                      ])),
+                      ],
+                    ),
+                  ),
                   onPressed: () {
+                    setState(() {
+                      auth.screen = 'Login';
+                    });
                     showBottomSheet(context);
                   },
                 ),

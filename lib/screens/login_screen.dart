@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendscape/providers/auth_provider.dart';
 import 'package:vendscape/providers/location_provider.dart';
-import 'package:vendscape/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login-screen';
@@ -89,16 +88,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         absorbing: _validPhoneNumber ? false : true,
                         child: FlatButton(
                           onPressed: () {
+                            // print(locationData.longitude);
                             setState((){
                               auth.loading=true;
+                              auth.screen='MapScreen';
+                              auth.latitude = locationData.latitude;
+                              auth.longitude = locationData.longitude;
+                              auth.address = locationData.selectedAddress.addressLine;
+
                             });
                             String number = '+234${_phoneNumberController.text}';
                             auth.verifyPhone(
                                 context: context,
                                 number: number,
-                                latitude: locationData.latitude,
-                                longitude: locationData.longitude,
-                                address: locationData.selectedAddress.addressLine
+                                // latitude: locationData.latitude,
+                                // longitude: locationData.longitude,
+                                // address: locationData.selectedAddress.addressLine
                             ).then((value) {
                               _phoneNumberController.clear();
                               // Navigator.pushReplacementNamed(context, HomeScreen.id);
@@ -106,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 auth.loading = false; //disables circular prog. indic.
                               });
                             });
-                            Navigator.pushNamed(context, LoginScreen.id);
+                            // Navigator.pushNamed(context, LoginScreen.id);
                           },
                           color: _validPhoneNumber
                               ? Theme.of(context).primaryColor
